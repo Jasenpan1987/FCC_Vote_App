@@ -1,0 +1,105 @@
+<% include partials/head.ejs %>
+<h1 class="text-center"><%=poll.title%></h1>
+<br/>
+<div class="row">
+    <!-- Vote form -->
+    <%if(user){%>
+    <div class="col-md-6">
+        <form method="post" action="/poll/polldetail/<%=poll._id%>">
+            <fieldset class="form-group">
+                <legend><%=poll.title%></legend>
+                <% for(var i=0; i<poll.options.length; i++) {%>
+                <div class="form-check">
+                    <label class="form-check-label">
+                        <input type="radio" class="form-check-input" name="optionsRadios"
+                               id="optionsRadios<%=i%>" value="<%=i%>">
+                        <%=poll.options[i]%>
+                    </label>
+                </div>
+                <%}%>
+            </fieldset>
+            <button class="btn btn-primary" type="submit">Submit Vote</button>
+        </form>
+    </div>
+    <%}%>
+    <!-- Details -->
+    <div class="col-md-6">
+        <div class="jumbotron">
+            <h3 class="text-center">Votes Details</h3>
+            <br />
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Option</th>
+                    <th># of Votes</th>
+                    <th>Percentage</th>
+                </tr>
+                </thead>
+                <tbody>
+                    <% for(var i=0; i<poll.options.length; i++) {%>
+                    <tr>
+                        <td><%=poll.options[i]%></td>
+                        <td><%=poll.votes[i]%></td>
+                        <td><%=(poll.votes[i]/poll.totalVotes).toFixed(2)%></td>
+                    </tr>
+                    <%}%>
+                </tbody>
+            </table>
+        </div>
+
+
+        <canvas id="myChart" width="400" height="400"></canvas>
+    </div>
+</div>
+<script src="/javascripts/Chart.min.js"></script>
+
+<script type="text/javascript">
+    var pollJson = <%- JSON.stringify( poll ); %>;
+    //var poll = JSON.parse(pollJson);
+    var labels = pollJson.options;
+    var data = pollJson.votes;
+
+    var ctx = document.getElementById("myChart");
+
+    //var lables =
+    var myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: '# of Votes',
+                data: data,
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(153, 102, 255, 0.2)',
+                    'rgba(255, 159, 64, 0.2)',
+                    'rgba(221, 160,	221, 0.2)',
+                    'rgba(230, 230,	250, 0.2)',
+                    'rgba(119, 136,	153, 0.2)',
+                    'rgba(122, 197,	205, 0.2)',
+                    'rgba(205, 205	0, 0.2)',
+                    'rgba(139,	90,	0, 0.2)',
+                    'rgba(255,	99,	71, 0.2)',
+                    'rgba(170,	170,170, 0.2)',
+
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero:true
+                    }
+                }]
+            }
+        }
+    });
+
+</script>
+
+<% include partials/tail.ejs %>

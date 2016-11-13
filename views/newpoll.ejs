@@ -1,0 +1,20 @@
+<% include partials/head.ejs %>
+    <div class="container">
+        <h2 class="text-center">Create New Vote</h2>
+        <br />
+        <form method="POST" action="/poll/newpoll">
+            <div class="form-group">
+                <label for="pollTitle">Poll Title</label>
+                <input type="text" class="form-control" id="pollTitle" name="pollTitle">
+            </div>
+            <br />
+            <div class="form-group">
+                <label for="pollOptions">Please type your poll options here, separated by two vertical bars ("||")</label>
+                <textarea class="form-control" id="pollOptions" name="pollOptions" rows="3"></textarea>
+                <small id="pollOptionsHelp" class="form-text text-muted">Please type your poll options here, separated by two vertical bars</small>
+            </div>
+            <br />
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+<% include partials/tail.ejs %>

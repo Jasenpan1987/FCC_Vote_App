@@ -1,0 +1,30 @@
+<% include partials/head.ejs %>
+  <div class="container">
+
+    <div class="jumbotron text-center">
+      <h1><span class="fa fa-lock"></span> Vote App</h1>
+
+      <p>Login or Register with:</p>
+      <%if(user){%>
+      <a href="/user" class="btn btn-default"><span class="fa fa-address-card"></span>My Profile</a>
+      <a href="/poll/newpoll" class="btn btn-success">Create New Poll</a>
+      <a href="/auth/logout" class="btn btn-danger">Logout <%=user.google.name%></a>
+      <%}else{%>
+      <a href="/auth/google" class="btn btn-danger"><span class="fa fa-google-plus"></span> Google</a>
+      <%}%>
+    </div>
+
+    <h2 class="text-center">Vote List</h2>
+
+    <div class="list-group">
+      <% for(var i=0; i<polls.length; i++) {%>
+      <a href="/poll/polldetail/<%=polls[i]._id%>" class="list-group-item list-group-item-action">
+        <h4 class="text-left text-default"><strong><%= polls[i].title%></strong>
+          <span class="text-right small text-primary" style="margin-left:30%">Votes: <%= polls[i].totalVotes%></span>
+        </h4>
+      </a>
+      <% } %>
+    </div>
+
+  </div>
+<% include partials/tail.ejs %>
